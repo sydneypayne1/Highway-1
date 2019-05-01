@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8' />
+    <title>Highway 1</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.css' rel='stylesheet' />
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      #map {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+      }
+        .mapboxgl-pop {
+            max-width: 400px;
+            font:12px/20px 'Helvetica';
+        }
+    </style>
+  </head>
+<body>
+      
+    <div id='map'></div> 
+    
+    <script>
+    mapboxgl.accessToken = 'pk.eyJ1Ijoic3lkbmV5cGF5bmUiLCJhIjoiY2pzM3E1YW5vMDRydTN6bzYzZXpsd3VobiJ9.FbAHLaiBFBpwP6_o6pempQ'; // replace this with your access token
+    var map = new mapboxgl.Map({
+      container: 'map',
+      style: 'mapbox://styles/sydneypayne/cjuimw5b703iy1fob52nmtz9y', // replace this with your style URL
+      center: [ -122.330100, 47.603800],
+      zoom: 5.5
+    });
+
+
+map.on('mouseenter', 'Cities To See', function() {
+    map.getCanvas().style.cursor = 'pointer';
+});
+        
+map.on('mouseleave', 'Cities To See', function() {
+    map.getCanvas().style.cursor= '';
+});
+        
+map.on('click','Cities To See', function(e) {
+var coordinates = e.features[0].geometry.coordinates.slice();
+var name = e.features[0].properties.Name;
+
+  new mapboxgl.Popup()
+    .setLngLat(coordinates)
+.setHTML('<b>' + 'City: ' + '</b>' +e.features[0].properties.Name)
+      .addTo(map);
+});
+
+map.on('mouseenter', 'Top 12 Must See Spots ', function() {
+    map.getCanvas().style.cursor = 'pointer';
+});
+        
+map.on('mouseleave', 'Top 12 Must See Spots ', function() {
+    map.getCanvas().style.cursor= '';
+});
+        
+map.on('click','Top 12 Must See Spots ', function(e) {
+var coordinates = e.features[0].geometry.coordinates.slice();
+var place_name = e.features[0].properties.Name;
+
+  new mapboxgl.Popup()
+    .setLngLat(coordinates)
+.setHTML('<b>' + 'Must See: ' + '</b>' +e.features[0].properties.place_name)
+      .addTo(map);
+});
+        
+        
+    </script>
+
+</body> 
+       
+</html>
