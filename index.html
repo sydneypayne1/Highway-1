@@ -6,7 +6,8 @@
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.js'></script>
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.css' rel='stylesheet' />
-    <style>
+      
+<style>
       body {
         margin: 0;
         padding: 0;
@@ -22,13 +23,67 @@
             max-width: 400px;
             font:12px/20px 'Helvetica';
         }
-    </style>
+    
+.legend {
+background-color: #fff;
+border-radius: 3px;
+bottom: 30px;
+box-shadow: 0 1px 2px rgba(0,0,0,0.10);
+font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+padding: 10px;
+position: absolute;
+right: 10px;
+z-index: 1;
+}
+ 
+.legend h4 {
+margin: 0 0 10px;
+}
+ 
+.legend div span {
+border-radius: 50%;
+display: inline-block;
+height: 10px;
+margin-right: 5px;
+width: 10px;
+}
+ 
+#fit {
+display: block;
+position: relative;
+margin: 0px auto;
+width: 50%;
+height: 40px;
+padding: 10px;
+border: none;
+border-radius: 3px;
+font-size: 12px;
+text-align: center;
+color: #fff;
+background: #ee8a65;
+}        
+        
+
+</style>
+ 
   </head>
 <body>
       
-    <div id='map'></div> 
     
-    <script>
+    
+      
+<div id='map'></div>
+ 
+<div id='state-legend' class='legend'>
+<h4>Ledgend</h4>
+<div><img src= "marker-editor.svg"> Cities to see </div>
+<div><img src = "marker-editor.svg">Must see stops </div>
+</div> 
+
+<button id='fit'>View Full Route</button>
+
+    
+<script>
     mapboxgl.accessToken = 'pk.eyJ1Ijoic3lkbmV5cGF5bmUiLCJhIjoiY2pzM3E1YW5vMDRydTN6bzYzZXpsd3VobiJ9.FbAHLaiBFBpwP6_o6pempQ'; // replace this with your access token
     var map = new mapboxgl.Map({
       container: 'map',
@@ -73,7 +128,17 @@ var place_name = e.features[0].properties.Name;
 .setHTML('<b>' + 'Must See: ' + '</b>' +e.features[0].properties.place_name)
       .addTo(map);
 });
-        
+
+
+document.getElementById('fit').addEventListener('click', function() {
+map.fitBounds([[
+ -122.10207081414194,
+      49.55636542722826
+], [
+-115.24302044098987,
+      30.302523246874088
+]]);
+});
         
     </script>
 
