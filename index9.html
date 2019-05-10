@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8' />
+    <title>Test Page</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.css' rel='stylesheet' />
+      
+<style>
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      #map {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+      }
+        .mapboxgl-pop {
+            max-width: 400px;
+            font:12px/20px 'Helvetica';
+        }
+    
+.legend {
+background-color: #fff;
+border-radius: 3px;
+bottom: 30px;
+box-shadow: 0 1px 2px rgba(0,0,0,0.10);
+font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+padding: 10px;
+position: absolute;
+right: 10px;
+z-index: 1;
+}
+ 
+.legend h4 {
+margin: 0 0 10px;
+}
+ 
+.legend div span {
+border-radius: 50%;
+display: inline-block;
+height: 10px;
+margin-right: 5px;
+width: 10px;
+}
+ 
+#fit {
+display: block;
+position: absolute;
+margin: 10px auto;
+width: 30%;
+height: 40px;
+padding: 10px;
+border: none;
+border-radius: 3px;
+font-size: 12px;
+text-align: center;
+color: #fff;
+background: #ee8a65;
+right: 10px;
+z-index: 1;
+}        
+        
+
+</style>
+ 
+  </head>
+<body>
+      
+    
+    
+      
+<div id='map'></div>
+ 
+<div id='state-legend' class='legend'>
+<h4>Ledgend</h4>
+<div><img src= "Cities.png"> Cities to see </div>
+<div><img src = "Stops.png">Must see stops </div>
+</div> 
+
+<button id='fit'>View Full Route</button>
+
+    
+<script>
+    
+    mapboxgl.accessToken = 'pk.eyJ1Ijoic3lkbmV5cGF5bmUiLCJhIjoiY2pzM3E1YW5vMDRydTN6bzYzZXpsd3VobiJ9.FbAHLaiBFBpwP6_o6pempQ'; // replace this with your access token
+    
+    var bounds = [[-136.4966132992023,
+      27.867977081786123],// southwest coordinates 
+        [-94.60095292869981,
+      53.50863895349465]// northeast coordinates 
+    ]; 
+        
+    var map = new mapboxgl.Map({
+      container: 'map',
+      style: 'mapbox://styles/sydneypayne/cjuig9h1700wg1fpc93xq8pxk', // replace this with your style URL
+      center: [ -122.330100, 47.603800],
+      zoom: 5.5,
+        maxBounds : bounds 
+    });
+
+
+map.on('mouseenter', 'cities-to-see', function() {
+    map.getCanvas().style.cursor = 'pointer';
+});
+        
+map.on('mouseleave', 'cities-to-see', function() {
+    map.getCanvas().style.cursor= '';
+});
+        
+map.on('click','cities-to-see', function(e) {
+var coordinates = e.features[0].geometry.coordinates.slice();
+var name = e.features[0].properties.Name;
+
+  new mapboxgl.Popup()
+    .setLngLat(coordinates)
+      .setHTML('<b>City: </b>' + name + "</br><img src="+ name +".png width=300 height=300>" )
+      .addTo(map);
+});
+
+map.on('mouseenter', 'top-12', function() {
+    map.getCanvas().style.cursor = 'pointer';
+});
+        
+map.on('mouseleave', 'top-12', function() {
+    map.getCanvas().style.cursor= '';
+});
+        
+map.on('click','top-12', function(e) {
+var coordinates = e.features[0].geometry.coordinates.slice();
+var place_name = e.features[0].properties.Name;
+
+  new mapboxgl.Popup()
+    .setLngLat(coordinates)
+.setHTML('<b>Must See: </b>' +e.features[0].properties.place_name + "</br><img src="+e.features[0].properties.Name+".png width=300 height=300>")
+      .addTo(map);
+});
+
+
+document.getElementById('fit').addEventListener('click', function() {
+map.fitBounds([[
+ -122.10207081414194,
+      49.55636542722826
+], [
+-115.24302044098987,
+      30.302523246874088
+]]);
+});
+        
+    </script>
+
+</body> 
+       
+</html>
